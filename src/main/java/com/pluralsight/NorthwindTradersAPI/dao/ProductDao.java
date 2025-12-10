@@ -1,11 +1,11 @@
 package com.pluralsight.NorthwindTradersAPI.dao;
 
+import com.pluralsight.NorthwindTradersAPI.model.Product;
+
 public interface ProductDao {
 
+    public void add(Product product);
 
-    public static void getAll(){
 
-    }
-
-    void getAll();
+    public void getAll();
 }

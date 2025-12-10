@@ -1,6 +1,6 @@
 package com.pluralsight.NorthwindTradersAPI.dao;
 
-import com.pluralsight.NorthwindTradersAPI.controller.Product;
+import com.pluralsight.NorthwindTradersAPI.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,7 @@ import java.sql.SQLException;
 public class JDBCProductDaoDao implements ProductDao {
 
     @Autowired
-    private DataSource dataSource;
+    private static DataSource dataSource;
 
     public void jdbcProductDao(DataSource dataSource) {
         this.dataSource = dataSource;

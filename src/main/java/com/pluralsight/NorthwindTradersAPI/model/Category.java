@@ -1,4 +1,4 @@
-package com.pluralsight.NorthwindTradersAPI.controller;
+package com.pluralsight.NorthwindTradersAPI.model;
 
 public class Category {
     private int categoryId;

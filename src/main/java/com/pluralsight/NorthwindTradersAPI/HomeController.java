@@ -13,16 +13,19 @@ public class HomeController {
     public String index(
             // dont entirely understand whats going on here but we are creating a paramater in the indext to return the default vaule country
             // setting country the string to USA
-            @RequestParam(defaultValue = "?country=USA")String country
+            // default vaule is being set to usa and if we assign country another one when we enter ?country=usa thats what will be entered
+            // you can return anything really like a web page or a url or sumthing
+            // string country is what will be entered in the ?(whatever string it is) = - - -
+            @RequestParam(defaultValue = "USA")String country
     ){
 
         // if the country value is not true or country is empty then reuturn first statement
         // else return basic statement
         // !country.isEmpty means that the country condition is true and the reverse would be false
-        if (country != null && !country.isEmpty()) {
-            return "Hello darkness " + country + "my old friend";
-        }else {
-            return "Hello darkness my old friend";
-        }
+        // country != null && !country.isEmpty()
+
+            return "Hello darkness " + country + " my old friend";
+
+
     }
 }
