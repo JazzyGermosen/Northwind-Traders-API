@@ -8,10 +8,11 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 
 @Component
-public class JDBCProductDaoDao implements ProductDao {
+public class JDBCProductDao implements ProductDao {
 
     @Autowired
     private static DataSource dataSource;
@@ -57,7 +58,7 @@ public class JDBCProductDaoDao implements ProductDao {
     }
 
     @Override
-    public void getAll(){
+    public List<Product> getAll(){
 
         String sql = """
                
@@ -81,5 +82,34 @@ public class JDBCProductDaoDao implements ProductDao {
 
 
     }
+
+    @Override
+    public Product getById(int id){
+        String sql = """
+                Select
+                    ProductName,
+                    ProductId,
+                    UnitPrice
+                From
+                    Product
+                Order By
+                    ProductId;
+                
+               
+                """;
+        try(
+                // creating the connection between the database and using a prepared statement
+                Connection conn = dataSource.getConnection();
+                PreparedStatement statement = conn.prepareStatement(sql)
+        ){
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return getById();
+    }
+
 
 }
