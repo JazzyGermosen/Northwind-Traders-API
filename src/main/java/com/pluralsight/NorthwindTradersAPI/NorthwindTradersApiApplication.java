@@ -8,7 +8,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class NorthwindTradersApiApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
-		SpringApplication.run(NorthwindTradersApiApplication.class, args);
+        if (args.length != 2){
+            System.out.println("need username and password");
+            System.exit(1);
+
+        }
+
+        System.setProperty("dbUsername", args[0]);
+        System.setProperty("dbPassword", args[1]);
+
+        SpringApplication.run(NorthwindTradersApiApplication.class, args);
 	}
 
     @Override

@@ -10,15 +10,14 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-import static com.pluralsight.NorthwindTradersAPI.dao.JDBCProductDao.dataSource;
 
 @Component
 public class JDBCCategoryDao implements CategoryDao{
 
 
-    @Autowired
-    private static DataSource dataSource;
+    private DataSource dataSource;
 
+    @Autowired
     public void jdbcCategoryDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
@@ -40,7 +39,7 @@ public class JDBCCategoryDao implements CategoryDao{
                 PreparedStatement statement = conn.prepareStatement(sql)
         ){
 
-            statement.executeUpdate();
+            statement.executeQuery();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -52,12 +51,15 @@ public class JDBCCategoryDao implements CategoryDao{
     @Override
     public Category getById(int id){
 
+
         String sql = """
                 Select
                     categoryId,
                     categoryName
                 From
                     Categories
+                Where
+                    CategoryId = ?
                 Order By
                     CategoryId;
                 
@@ -69,11 +71,11 @@ public class JDBCCategoryDao implements CategoryDao{
                 PreparedStatement statement = conn.prepareStatement(sql)
         ){
 
-            statement.executeUpdate();
+            statement.executeQuery();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return getById();
+        return Category category = new Category(int categoryId, String categoryName);
     }
 }

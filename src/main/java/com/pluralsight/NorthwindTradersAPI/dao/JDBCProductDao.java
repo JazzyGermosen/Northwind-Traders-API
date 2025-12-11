@@ -7,16 +7,18 @@ import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 
 @Component
 public class JDBCProductDao implements ProductDao {
 
-    @Autowired
-    private static DataSource dataSource;
+    private  DataSource dataSource;
 
+    @Autowired
     public void jdbcProductDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
@@ -60,6 +62,8 @@ public class JDBCProductDao implements ProductDao {
     @Override
     public List<Product> getAll(){
 
+        List<Product> products = new ArrayList<>();
+
         String sql = """
                
                Select
@@ -74,22 +78,25 @@ public class JDBCProductDao implements ProductDao {
                 PreparedStatement statement = conn.prepareStatement(sql)
         ){
 
-            statement.executeUpdate();
+            statement.executeQuery();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-
+        return products;
     }
 
     @Override
     public Product getById(int id){
+
+
         String sql = """
                 Select
                     ProductName,
                     ProductId,
-                    UnitPrice
+                    UnitPrice,
+                    CategoryId
                 From
                     Product
                 Order By
@@ -102,13 +109,27 @@ public class JDBCProductDao implements ProductDao {
                 Connection conn = dataSource.getConnection();
                 PreparedStatement statement = conn.prepareStatement(sql)
         ){
+            try(
+                    //hover over result set to tell you wat it does
+                    // you can do this with any class or method
+                    //Big Pur
+                    ResultSet rs = statement.executeQuery()
 
-            statement.executeUpdate();
+                    ){
+                String name = rs.getString("ProductName");
+                int prodId = rs.getInt("ProductId");
+                double unit = rs.getDouble("UnitPrice");
+                int catId = rs.getInt("CategoryId");
+                Product product = new Product(prodId, name, catId, unit);
+                return product;
+            }
 
         } catch (SQLException e) {
+
             e.printStackTrace();
+            return null;
         }
-        return getById();
+
     }
 
 
